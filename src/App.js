@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Search from './component/search';
 import './App.css';
 
-class App extends Component {
-  // eslint-disable-next-line class-methods-use-this
-  render() {
-    return (
-            <div classsName='app'>Hello world</div>
-    );
-  }
+function App() {
+  return (
+            <div className='app'>
+               <Search />
+            </div>
+  );
 }
 
 export default App;

@@ -25,12 +25,33 @@ input{
     padding-top: 15px;
     padding-left: 20px;
 }
+.nav-links{
+    padding-top: 15px;
+    font-size: 13px;
+}
+.links{
+    margin-left: 5px;
+    color: white;
+    text-align: center;
+    background: #303030;
+    padding: 0px;
+    border-radius: 50px;
+    width: auto;
+}
+.links:hover{
+    color: white;
+    transition: ease-in-out 0.5s;
+    background: #d6292c;
+}
 .movies{
     padding-top: 50px;
 }
 .card-list{
     margin-left: -4%;
     list-style: none;
+}
+.card-list li{
+    padding-bottom: 20px;
 }
 .card-list::after{
     content: "";
@@ -42,10 +63,47 @@ input{
     padding-left: 20px;
     width: 33.33%;
 }
+.movie-poster:hover{
+    background: black;
+    width: 100%;
+    height: 100px;
+    background-position: center;
+    background-size: cover;
+}
+.details{
+    padding-top: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+.title{
+    font-weight: bold;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.date{
+    font-size: 13px;
+}
+.popularity{
+    text-align: center;
+    border: 1px solid rgb(97, 97, 97);
+    padding: 1px;
+    border-radius: 40px;
+    width: 70px;
+    height: 30px;
+}
+.popularity span{
+    font-size: 13px;
+}
+.popularity img{
+    margin-right: 5px;
+    width: 15px;
+}
 
 @media screen and (max-width: 992px){
     .card-list{
-        margin-left: 0%;
+        margin-left: -0%;
     }
     .card-list::after{
         content: normal;
@@ -53,8 +111,7 @@ input{
         clear: none;
     }
     .card-list li{
-        float: left;
-        padding-left: 0px;
         width: 100%;
+        padding-left: -20px;
     }
 }

@@ -1,4 +1,5 @@
-import HtmlWebPackPlugin from 'html-webpack-plugin';
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   module: {
@@ -21,13 +22,23 @@ module.exports = {
       {
         test: /\.css$/,
         loader: 'style-loader!css-loader'
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          'file-loader'
+        ]
       }
     ]
   },
   plugins: [
+    new Dotenv(),
     new HtmlWebPackPlugin({
       template: './src/index.html',
       filename: './index.html'
     })
-  ]
+  ],
+  node: {
+    fs: 'empty'
+  }
 };

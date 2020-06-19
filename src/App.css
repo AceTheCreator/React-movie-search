@@ -1,3 +1,60 @@
 .app{
     color: white;
 }
+.nav-bar{
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.logo img{
+    padding-top: 10px;
+    width: 100px;
+}
+input{
+    color: white;
+    width: 100%;
+    text-indent: 30px;
+    padding: 10px;
+    background: rgb(53, 53, 53);
+    border: 1px solid rgb(53, 53, 53);
+    border-radius: 5px;
+}
+.search-icon{
+    width: 35px;
+    position: absolute;
+    padding-top: 15px;
+    padding-left: 20px;
+}
+.movies{
+    padding-top: 50px;
+}
+.card-list{
+    margin-left: -4%;
+    list-style: none;
+}
+.card-list::after{
+    content: "";
+    display: table;
+    clear: both;
+}
+.card-list li{
+    float: left;
+    padding-left: 20px;
+    width: 33.33%;
+}
+
+@media screen and (max-width: 992px){
+    .card-list{
+        margin-left: 0%;
+    }
+    .card-list::after{
+        content: normal;
+        display: inline;
+        clear: none;
+    }
+    .card-list li{
+        float: left;
+        padding-left: 0px;
+        width: 100%;
+    }
+}

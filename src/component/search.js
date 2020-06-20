@@ -9,8 +9,10 @@ import MovieList from './movieList';
 import searchIcon from '../static/search.svg';
 import githubIcon from '../static/github.svg';
 
-let clickedFunc;
 const apiKey = process.env.MDB_KEY;
+const url = 'https://api.themoviedb.org/3/';
+let options;
+let urldes = '';
 
 class Movies extends Component {
   constructor(props) {
@@ -18,6 +20,9 @@ class Movies extends Component {
     this.page = 1;
     this.state = {
       loading: true,
+      hasMore: false,
+      totalPages: null,
+      currentPage: null,
       movies: [],
       error: null,
       searchText: null
@@ -35,28 +40,27 @@ class Movies extends Component {
   }
 
   onMovieSearchSubmit(e) {
-    clickedFunc = this.onMovieSearchSubmit;
     this.setState({
       ...this.state,
       loading: true,
       movies: []
     });
     e.preventDefault();
-    axios.get('https://api.themoviedb.org/3/search/movie', {
+    axios.get(`${url}search/movie`, {
       params: {
         api_key: apiKey,
-        page: this.page++,
         query: this.state.searchText
       }
     })
       .then((res) => {
-        this.setState((state) => {
-          const list = state.movies.concat(res.data.results);
-          return {
-            ...this.state,
-            loading: false,
-            movies: list
-          };
+        urldes = `${url}search/movie`;
+        options = this.state.searchText;
+        this.setState({
+          ...this.state,
+          loading: false,
+          totalPages: res.data.total_pages,
+          currentPage: res.data.page,
+          movies: res.data.results
         });
       })
       .catch((err) => {
@@ -75,26 +79,25 @@ class Movies extends Component {
   }
 
   onShowingClick() {
-    clickedFunc = this.onShowingClick;
     this.setState({
       ...this.state,
       loading: true,
       movies: []
     });
-    axios.get('https://api.themoviedb.org/3/movie/now_playing', {
+    urldes = `${url}movie/now_playing`;
+    axios.get(`${url}movie/now_playing`, {
       params: {
-        api_key: apiKey,
-        page: this.page++
+        api_key: apiKey
       }
     })
       .then((res) => {
-        this.setState((state) => {
-          const list = state.movies.concat(res.data.results);
-          return {
-            ...this.state,
-            loading: false,
-            movies: list
-          };
+        console.log(res);
+        this.setState({
+          ...this.state,
+          loading: false,
+          totalPages: res.data.total_pages,
+          currentPage: res.data.page,
+          movies: res.data.results
         });
       })
       .catch((err) => {
@@ -106,21 +109,24 @@ class Movies extends Component {
   }
 
   onMostPopularClick() {
-    clickedFunc = this.onMostPopularClick;
     this.setState({
       ...this.state,
       loading: true,
       movies: []
     });
-    axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US`)
+    urldes = `${url}movie/popular`;
+    axios.get(`${url}movie/popular`, {
+      params: {
+        api_key: apiKey
+      }
+    })
       .then((res) => {
-        this.setState((state) => {
-          const list = state.movies.concat(res.data.results);
-          return {
-            ...this.state,
-            loading: false,
-            movies: list
-          };
+        this.setState({
+          ...this.state,
+          loading: false,
+          totalPages: res.data.total_pages,
+          currentPage: res.data.page,
+          movies: res.data.results
         });
       })
       .catch((err) => {
@@ -132,20 +138,55 @@ class Movies extends Component {
   }
 
   onUpcomingClick() {
-    clickedFunc = this.onUpcomingClick;
     this.setState({
       ...this.state,
       loading: true,
       movies: []
     });
-    axios.get(`https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}&language=en-US`)
+    urldes = `${url}movie/upcoming`;
+    axios.get(`${url}movie/upcoming`, {
+      params: {
+        api_key: apiKey
+      }
+    })
       .then((res) => {
+        this.setState({
+          ...this.state,
+          loading: false,
+          totalPages: res.data.total_pages,
+          currentPage: res.data.page,
+          movies: res.data.results
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          ...this.state,
+          error: err
+        });
+      });
+  }
+
+  loadMoreMovies(urldestination, query) {
+    this.setState({
+      ...this.state,
+      hasMore: true
+    });
+    axios.get(urldestination, {
+      params: {
+        api_key: apiKey,
+        page: this.page++ + 1,
+        query
+      }
+    })
+      .then((res) => {
+        console.log(res);
         this.setState((state) => {
-          const list = state.movies.concat(res.data.results);
+          const more = state.movies.concat(res.data.results);
           return {
             ...this.state,
             loading: false,
-            movies: list
+            currentPage: res.data.page,
+            movies: more
           };
         });
       })
@@ -161,13 +202,21 @@ class Movies extends Component {
     let hasFetched = false;
     if (hasFetched) return;
     hasFetched = true;
-    this.setState({ loading: true });
-    clickedFunc();
+    if (this.state.currentPage >= this.state.totalPages) {
+      this.setState({ hasMore: false });
+    } else {
+      this.loadMoreMovies(urldes, options);
+    }
   }
 
   render() {
-    // let hasFetched = false;
+    let hasMore;
     let result;
+    if (this.state.hasMore === true) {
+      hasMore = <h6>loadin</h6>;
+    } else {
+      hasMore = '';
+    }
     if (this.state.loading === true) {
       result = <SkeletonCard />;
     } else {
@@ -196,6 +245,7 @@ class Movies extends Component {
 
                 <div className='movies'>
                 {result}
+                {hasMore}
                 </div>
             </Container>
     );

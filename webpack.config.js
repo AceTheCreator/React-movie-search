@@ -31,6 +31,12 @@ module.exports = {
       }
     ]
   },
+  devServer: {
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    }
+  },
+  devtool: '#cheap-module-source-map',
   plugins: [
     new Dotenv(),
     new HtmlWebPackPlugin({

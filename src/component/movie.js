@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
+import ReactPlayer from 'react-player/youtube';
+import { Modal } from 'react-bootstrap';
 import starIcon from '../static/star.svg';
 import playIcon from '../static/play.svg';
 
+const apiKey = process.env.MDB_KEY;
+
 function Movie(props) {
+  const [modalShow, setModalShow] = useState(false);
+  const [video, updateVideo] = useState({});
   const result = props.details;
-  console.log(result);
   const genres = result.genres.map((index) => (
   <div className='genres' key={index.id}>{index.name}</div>
   ));
@@ -16,6 +22,18 @@ function Movie(props) {
   const countries = result.production_countries.map((index) => (
     <div className='countries' key={index.id}>{index.name},</div>
   ));
+  const playTrailer = (data) => {
+    axios.get(`https://api.themoviedb.org/3/movie/${data}/videos`, {
+      params: {
+        api_key: apiKey
+      }
+    }).then((res) => {
+      updateVideo(res.data.results[0]);
+      setModalShow(true);
+    }).catch((err) => {
+      throw err;
+    });
+  };
   return (
   <div className='movie'>
       <div className='poster'>
@@ -52,16 +70,19 @@ function Movie(props) {
                </div>
            </div>
            <div className='watch'>
-               <button className='play-trailer'>
+               <button onClick={() => playTrailer(result.id)} className='play-trailer'>
                    Watch trailer <span><img src={playIcon} alt='play-icon' /></span>
                </button>
                <button className='explore'>
                    Explore more
                </button>
            </div>
-           <div className='related-movies'>
-               Related movies
-               <Related id={result.id} />
+           <div className='watch-trailer'>
+               <WatchTrailer
+                data = {video}
+                 show={modalShow}
+                 onHide={() => setModalShow(false)}
+                />
            </div>
            </div>
   </div>
@@ -72,10 +93,21 @@ Movie.propTypes = {
   details: PropTypes.array,
   genres: PropTypes.array
 };
-export default Movie;
 
-function Related(props) {
+function WatchTrailer(props) {
+  const url = `https://www.youtube.com/watch?v=${props.data.key}`;
   return (
-        <div>Hello</div>
+        <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+        <ReactPlayer
+         width='100%'
+         height='50vh'
+         url={url} />
+    </Modal>
   );
 }
+export default Movie;

@@ -33,6 +33,9 @@
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
     "react-loading-skeleton": "^2.1.1",
-    "react-waypoint": "^9.0.3"
+    "react-player": "^2.3.1",
+    "react-video": "^1.5.3",
+    "react-waypoint": "^9.0.3",
+    "video-react": "^0.14.1"
   }
 }

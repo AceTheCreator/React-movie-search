@@ -113,3 +113,104 @@ input{
         padding-left: -20px;
     }
 }
+.movie{
+    display: flex;
+}
+.movie .poster{
+    width: 50%;
+    height: auto;
+}
+.movie .poster img{
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+}
+
+.content{
+    padding-left: 40px;
+    width: 50%;
+}
+.content .head{
+    display: flex;
+    justify-content: space-between !important;
+}
+.content .movie-title{
+    max-width: 80%;
+}
+.content .movie-popularity{
+    float: right;
+}
+.content .movie-popularity img{
+    width: 25px;
+}
+.content h1{
+    font-weight: bold;
+}
+.content .release-date{
+    font-size: 14px;
+    color: rgb(151, 151, 151);
+}
+.genre-list, .language-list{
+    margin-left: -5px;
+    padding-top: 10px;
+    display: flex;
+}
+.genres{
+    color:rgb(151, 151, 151) ;
+    font-size: 13px;
+    padding: 5px;
+    width: auto;
+    border-radius: 5px;
+    margin-left: 5px;
+    border: 1px solid rgb(151, 151, 151);
+}
+.language{
+    color:rgb(151, 151, 151) ;
+    font-size: 13px;
+    margin-left: 5px;
+}
+.overview{
+    color: rgb(207, 207, 207);
+    padding-top: 10px;
+}
+.country{
+    padding-top: 10px;
+    display: flex;
+    justify-content: flex-start;
+}
+.production-title{
+    color: rgb(151, 151, 151);
+}
+.countries{
+    margin-left: 5px;
+}
+.country-list{
+    color:rgb(207, 207, 207);
+    margin-left: 15px;
+    display: flex;
+}
+.watch{
+    padding-top: 20px;
+    margin-left: -10px;
+}
+.watch button{
+    margin-left: 10px;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+}
+.play-trailer{
+    background:#d6292c;
+    color: white;
+}
+.explore{
+    background:#ffffff;
+    color: rgb(0, 0, 0);
+}
+.play-trailer img{
+    margin-left: 5px;
+    width: 10px;
+}
+.related-movies{
+    padding-top: 20px;
+}

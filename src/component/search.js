@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable class-methods-use-this */
 import React, { Component } from 'react';
 import axios from 'axios';
@@ -8,9 +9,13 @@ import MovieList from './movieList';
 import searchIcon from '../static/search.svg';
 import githubIcon from '../static/github.svg';
 
+let clickedFunc;
+const apiKey = process.env.MDB_KEY;
+
 class Movies extends Component {
   constructor(props) {
     super(props);
+    this.page = 1;
     this.state = {
       loading: true,
       movies: [],
@@ -22,6 +27,7 @@ class Movies extends Component {
     this.onShowingClick = this.onShowingClick.bind(this);
     this.onMovieSearchSubmit = this.onMovieSearchSubmit.bind(this);
     this.onMovieSearch = this.onMovieSearch.bind(this);
+    this.renderWaypoint = this.renderWaypoint.bind(this);
   }
 
   componentDidMount() {
@@ -29,18 +35,28 @@ class Movies extends Component {
   }
 
   onMovieSearchSubmit(e) {
+    clickedFunc = this.onMovieSearchSubmit;
     this.setState({
       ...this.state,
-      loading: true
+      loading: true,
+      movies: []
     });
-    const apiKey = process.env.MDB_KEY;
     e.preventDefault();
-    axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&query=${this.state.searchText}`)
+    axios.get('https://api.themoviedb.org/3/search/movie', {
+      params: {
+        api_key: apiKey,
+        page: this.page++,
+        query: this.state.searchText
+      }
+    })
       .then((res) => {
-        this.setState({
-          ...this.state,
-          loading: false,
-          movies: res.data.results
+        this.setState((state) => {
+          const list = state.movies.concat(res.data.results);
+          return {
+            ...this.state,
+            loading: false,
+            movies: list
+          };
         });
       })
       .catch((err) => {
@@ -59,17 +75,26 @@ class Movies extends Component {
   }
 
   onShowingClick() {
-    const apiKey = process.env.MDB_KEY;
+    clickedFunc = this.onShowingClick;
     this.setState({
       ...this.state,
-      loading: true
+      loading: true,
+      movies: []
     });
-    axios.get(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US`)
+    axios.get('https://api.themoviedb.org/3/movie/now_playing', {
+      params: {
+        api_key: apiKey,
+        page: this.page++
+      }
+    })
       .then((res) => {
-        this.setState({
-          ...this.state,
-          loading: false,
-          movies: res.data.results
+        this.setState((state) => {
+          const list = state.movies.concat(res.data.results);
+          return {
+            ...this.state,
+            loading: false,
+            movies: list
+          };
         });
       })
       .catch((err) => {
@@ -81,17 +106,21 @@ class Movies extends Component {
   }
 
   onMostPopularClick() {
-    const apiKey = process.env.MDB_KEY;
+    clickedFunc = this.onMostPopularClick;
     this.setState({
       ...this.state,
-      loading: true
+      loading: true,
+      movies: []
     });
     axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US`)
       .then((res) => {
-        this.setState({
-          ...this.state,
-          loading: false,
-          movies: res.data.results
+        this.setState((state) => {
+          const list = state.movies.concat(res.data.results);
+          return {
+            ...this.state,
+            loading: false,
+            movies: list
+          };
         });
       })
       .catch((err) => {
@@ -103,17 +132,21 @@ class Movies extends Component {
   }
 
   onUpcomingClick() {
-    const apiKey = process.env.MDB_KEY;
+    clickedFunc = this.onUpcomingClick;
     this.setState({
       ...this.state,
-      loading: true
+      loading: true,
+      movies: []
     });
     axios.get(`https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}&language=en-US`)
       .then((res) => {
-        this.setState({
-          ...this.state,
-          loading: false,
-          movies: res.data.results
+        this.setState((state) => {
+          const list = state.movies.concat(res.data.results);
+          return {
+            ...this.state,
+            loading: false,
+            movies: list
+          };
         });
       })
       .catch((err) => {
@@ -124,12 +157,23 @@ class Movies extends Component {
       });
   }
 
+  renderWaypoint() {
+    let hasFetched = false;
+    if (hasFetched) return;
+    hasFetched = true;
+    this.setState({ loading: true });
+    clickedFunc();
+  }
+
   render() {
+    // let hasFetched = false;
     let result;
     if (this.state.loading === true) {
       result = <SkeletonCard />;
     } else {
-      result = <MovieList movies= {this.state.movies} />;
+      result = <div>
+        <MovieList movies= {this.state.movies} loadMore = {this.renderWaypoint} />
+      </div>;
     }
     return (
         <Container>

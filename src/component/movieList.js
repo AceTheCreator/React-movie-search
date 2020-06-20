@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable class-methods-use-this */
 import React from 'react';
+import { Waypoint } from 'react-waypoint';
 import PropTypes from 'prop-types';
 import starIcon from '../static/star.svg';
 
@@ -8,7 +9,7 @@ function MovieList(props) {
   return (
     <ul className = 'card-list'>
           {
-            props.movies.map((index) => (
+            props.movies.map((index, req) => (
                 <li key={index.id}>
                    <div className='movie-poster' style={{
                      width: '100%',
@@ -18,7 +19,15 @@ function MovieList(props) {
                      backgroundSize: 'cover',
                      borderRadius: '10px',
                      cursor: 'pointer'
-                   }}></div>
+                   }}>
+                     {
+                       req === props.movies.length - 1
+                         ? <Waypoint
+                       onEnter={props.loadMore}
+                        />
+                         : null
+                     }
+                   </div>
                    <div className='details'>
                        <div className='nun'>
                        <div className='title'>
@@ -34,13 +43,15 @@ function MovieList(props) {
                        </div>
                 </li>
             ))
+
           }
       </ul>
   );
 }
 
 MovieList.propTypes = {
-  movies: PropTypes.array
+  movies: PropTypes.array,
+  loadMore: PropTypes.func
 };
 
 export default MovieList;

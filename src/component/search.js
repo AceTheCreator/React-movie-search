@@ -91,7 +91,6 @@ class Movies extends Component {
       }
     })
       .then((res) => {
-        console.log(res);
         this.setState({
           ...this.state,
           loading: false,
@@ -179,7 +178,6 @@ class Movies extends Component {
       }
     })
       .then((res) => {
-        console.log(res);
         this.setState((state) => {
           const more = state.movies.concat(res.data.results);
           return {

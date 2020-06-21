@@ -37,7 +37,16 @@ function Movie(props) {
   return (
   <div className='movie'>
       <div className='poster'>
-          <img src={ `https://image.tmdb.org/t/p/original/${result.poster_path}`} />
+        <div className='m-poster' style={{
+          background: `url(https://image.tmdb.org/t/p/w500/${result.poster_path})`,
+          width: '500px',
+          height: '550px',
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          borderRadius: '10px'
+        }}>
+
+        </div>
       </div>
       <div className='content'>
           <div className='head'>
@@ -110,4 +119,7 @@ function WatchTrailer(props) {
     </Modal>
   );
 }
+WatchTrailer.propTypes = {
+  data: PropTypes.array
+};
 export default Movie;

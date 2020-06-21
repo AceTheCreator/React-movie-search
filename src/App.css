@@ -48,15 +48,21 @@ input{
     transition: ease-in-out 0.5s;
     background: #d6292c;
 }
+@media screen and (max-width:992px){
+    .logo img{
+        padding-top: 10px;
+        width: 70px;
+    }
+    form{
+        width: 70% !important;
+    }
+}
 .movies{
     padding-top: 50px;
 }
 .card-list{
     margin-left: -4%;
     list-style: none;
-}
-.card-list li{
-    padding-bottom: 20px;
 }
 .card-list::after{
     content: "";
@@ -65,6 +71,7 @@ input{
 }
 .card-list li{
     float: left;
+    padding-bottom: 20px;
     padding-left: 20px;
     width: 33.33%;
 }
@@ -101,7 +108,7 @@ input{
 
 @media screen and (max-width: 992px){
     .card-list{
-        margin-left: -0%;
+        margin-left: -5%;
     }
     .card-list::after{
         content: normal;
@@ -109,8 +116,9 @@ input{
         clear: none;
     }
     .card-list li{
+        padding-right: 30px;
         width: 100%;
-        padding-left: -20px;
+        margin-right: 40px;
     }
 }
 .movie{
@@ -210,4 +218,44 @@ input{
 .play-trailer img{
     margin-left: 5px;
     width: 10px;
+}
+@media screen and (max-width: 1199px){
+    .content{
+        padding-left: 50px;
+    }
+}
+@media screen and (max-width: 992px){
+    .m-poster{
+        width: 100% !important;
+    }
+    .movie{
+        flex-direction: column;
+    }
+    .movie .poster{
+        width: 100%;
+    }
+    .content{
+        padding-left: 0px;
+        width: 100%;
+    }
+    .content .head{
+        padding-top: 20px;
+    }
+}
+@media screen and (max-width: 500px){
+    .watch{
+        padding-bottom: 20px;
+    }
+    .watch button{
+        width: 100%;
+    }
+    .explore{
+    margin-top: 10px;
+    }
+    .nav-links{
+        padding-top: 15px;
+        font-weight: bold;
+        font-size: 8px;
+    }
+    
 }

@@ -226,14 +226,14 @@ class Movies extends Component {
         <Container>
                       <div className='nav-bar'>
                     <div className='logo'>
-                        <img src='https://image.tmdb.org/t/p/original/wwemzKWzjKYJFfCeiB57q3r4Bcm.svg' alt='netflix-logo' />
+                       <a href="/"> <img src='https://image.tmdb.org/t/p/original/wwemzKWzjKYJFfCeiB57q3r4Bcm.svg' alt='netflix-logo' /></a>
                     </div>
                     <Form onSubmit={this.onMovieSearchSubmit} style={{ width: '50%', textAlign: 'center' }}>
                     <img src={searchIcon} className='search-icon' alt='search-icon' />
                         <input onKeyPress={this.onMovieSearch} type='search' placeholder='search for movies' />
                     </Form>
                     <div className='code-repo'>
-                    <img src={githubIcon} alt='github-logo' />
+                    <a href='https://github.com/6lvck/React-movie-search/'><img src={githubIcon} alt='github-logo' /></a>
                     </div>
                     </div>
                     <QuickNav

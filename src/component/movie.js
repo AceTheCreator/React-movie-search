@@ -82,9 +82,6 @@ function Movie(props) {
                <button onClick={() => playTrailer(result.id)} className='play-trailer'>
                    Watch trailer <span><img src={playIcon} alt='play-icon' /></span>
                </button>
-               <button className='explore'>
-                   Explore more
-               </button>
            </div>
            <div className='watch-trailer'>
                <WatchTrailer

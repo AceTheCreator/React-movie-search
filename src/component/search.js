@@ -219,7 +219,7 @@ class Movies extends Component {
       result = <SkeletonCard />;
     } else {
       result = <div>
-        <MovieList movies= {this.state.movies} loadMore = {this.renderWaypoint} />
+        <MovieList movies={this.state.movies} loadMore = {this.renderWaypoint} />
       </div>;
     }
     return (
